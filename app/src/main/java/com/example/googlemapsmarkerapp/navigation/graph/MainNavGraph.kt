@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.googlemapsmarkerapp.navigation.screen.BottomNavItemScreen
-import com.example.googlemapsmarkerapp.presentation.screens.HomeScreen
+import com.example.googlemapsmarkerapp.presentation.screens.home.HomeScreen
 import com.example.googlemapsmarkerapp.presentation.screens.SavedScreen
 
 
