@@ -78,8 +78,10 @@ dependencies {
     // google map services
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation(libs.accompanist.permissions)
     // google maps utils
     implementation(libs.android.maps.utils)
+    implementation(libs.places)
 
     // hilt
     implementation(libs.hilt.android)
