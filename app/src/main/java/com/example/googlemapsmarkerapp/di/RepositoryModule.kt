@@ -3,6 +3,8 @@ package com.example.googlemapsmarkerapp.di
 import com.example.googlemapsmarkerapp.data.repoitory.Repository
 import com.example.googlemapsmarkerapp.domain.usecase.UseCases
 import com.example.googlemapsmarkerapp.domain.usecase.addLocationusecase.AddLocationUseCase
+import com.example.googlemapsmarkerapp.domain.usecase.deletelocationusecase.DeleteLocationUseCase
+import com.example.googlemapsmarkerapp.domain.usecase.getalllocationusecase.GetAllLocationUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +19,9 @@ object RepositoryModule {
     @Singleton
     fun provideUseCase(repository: Repository): UseCases {
         return UseCases(
-           addLocationUseCase = AddLocationUseCase(repository)
+            addLocationUseCase = AddLocationUseCase(repository),
+            getAllLocationUseCase = GetAllLocationUseCase(repository),
+            deleteLocationUseCase = DeleteLocationUseCase(repository)
         )
     }
 

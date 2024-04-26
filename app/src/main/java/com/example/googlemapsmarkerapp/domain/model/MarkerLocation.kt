@@ -7,11 +7,11 @@ import com.example.googlemapsmarkerapp.utils.Constants.MARKER_LOCATION_DATABASE_
 @Entity(tableName = MARKER_LOCATION_DATABASE_TABLE)
 data class MarkerLocation(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int? = null,
     val name:String,
     val relation:String,
-    val age:String,
-    val address:String,
+    val age:Int,
+    val address:String?,
     val  latitude:Double,
     val  longitude:Double,
 )
