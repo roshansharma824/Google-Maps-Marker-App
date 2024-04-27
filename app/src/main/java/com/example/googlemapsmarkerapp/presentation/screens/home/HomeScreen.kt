@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,10 +67,7 @@ fun HomeScreen(
     var location by remember { mutableStateOf(LatLng(28.524521584703603, 77.18551374973292)) }
     var showMap by remember { mutableStateOf(false) }
     var openDialog by remember { mutableStateOf(false) }
-    var text by remember {
-        mutableStateOf("")
-    }
-
+    var isError by rememberSaveable { mutableStateOf(false) }
     val (personDetail, setPersonDetails) = remember { mutableStateOf(PersonDetail()) }
 
 
@@ -93,7 +92,7 @@ fun HomeScreen(
                 },
                 onMapClick = {
                     openDialog = true
-                    onSaveLocation(it, homeScreenViewModel, context, personDetail, setPersonDetails)
+                    onSaveLocation(it, context, personDetail, setPersonDetails)
                 }
             ) {
 
@@ -105,8 +104,8 @@ fun HomeScreen(
                                 markerLocation.longitude
                             ),
                         ),
-                        title = "Lat: ${markerLocation.latitude}\nLon: ${markerLocation.latitude}",
-                        snippet = "Long click to delete \n Long click to delete",
+                        title = "Name ${markerLocation.name}",
+                        snippet = "Address ${markerLocation.address}",
                         onInfoWindowLongClick = {
                             homeScreenViewModel.onEvent(
                                 MapEvent.OnInfoWindowLongClick(markerLocation)
@@ -123,12 +122,6 @@ fun HomeScreen(
                 }
 
             }
-
-            Button(onClick = {
-
-            }) {
-                Text(text = "Location")
-            }
         }
     } else {
         ProgressIndicator()
@@ -136,7 +129,11 @@ fun HomeScreen(
 
 
     if (openDialog) {
-        Dialog(onDismissRequest = { openDialog = false }) {
+        Dialog(
+            onDismissRequest = {
+                openDialog = false
+                setPersonDetails(PersonDetail())
+            }) {
             Box(
                 modifier = Modifier
                     .background(color = Color.White, shape = RoundedCornerShape(8))
@@ -167,6 +164,16 @@ fun HomeScreen(
                         label = { Text("Name") },
                         onValueChange = {
                             setPersonDetails(personDetail.copy(name = it))
+                            if (personDetail.name.isNotEmpty()) isError = false
+                        },
+                        supportingText = {
+                            if (isError) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = "Name must fill",
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
                         }
                     )
                     OutlinedTextField(
@@ -242,6 +249,10 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         onClick = {
+                            if (personDetail.name.length <= 2){
+                                isError = true
+                                return@Button
+                            }
                             homeScreenViewModel.onEvent(
                                 MapEvent.OnMapLongClick(
                                     MarkerLocation(
@@ -255,6 +266,7 @@ fun HomeScreen(
                                 )
                             )
                             openDialog = false
+                            setPersonDetails(PersonDetail())
                         }) {
                         Text(text = "Save")
                     }
@@ -269,7 +281,6 @@ fun HomeScreen(
 @SuppressLint("MissingPermission")
 fun onSaveLocation(
     location: LatLng,
-    homeScreenViewModel: HomeScreenViewModel,
     context: Context,
     personDetail: PersonDetail,
     setPersonDetails: (PersonDetail) -> Unit,

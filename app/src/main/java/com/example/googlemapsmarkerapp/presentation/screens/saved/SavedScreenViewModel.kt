@@ -1,24 +1,24 @@
-package com.example.googlemapsmarkerapp.presentation.screens.home
+package com.example.googlemapsmarkerapp.presentation.screens.saved
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.googlemapsmarkerapp.domain.model.MarkerLocation
 import com.example.googlemapsmarkerapp.domain.usecase.UseCases
+import com.example.googlemapsmarkerapp.presentation.screens.home.MapState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(
+class SavedScreenViewModel @Inject constructor(
     private val useCases: UseCases
 ) : ViewModel() {
 
     var state by mutableStateOf(MapState())
-
-
     init {
         viewModelScope.launch {
             useCases.getAllLocationUseCase.invoke().collectLatest { markerLocations ->
@@ -29,23 +29,9 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-
-    fun onEvent(event: MapEvent) {
-        when (event) {
-            is MapEvent.OnMapLongClick -> {
-                viewModelScope.launch {
-                    useCases.addLocationUseCase.invoke(
-                        event.markerLocation
-                    )
-                }
-            }
-
-            is MapEvent.OnInfoWindowLongClick -> {
-                viewModelScope.launch {
-                    useCases.deleteLocationUseCase.invoke(event.markerLocation)
-                }
-            }
+    fun onDeleteLocation(markerLocation: MarkerLocation){
+        viewModelScope.launch {
+            useCases.deleteLocationUseCase.invoke(markerLocation)
         }
     }
-
 }
