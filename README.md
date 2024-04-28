@@ -40,3 +40,11 @@ To try out this sample app, use the latest stable version of [Android Studio](ht
 | Delete Pop-up | Full Video |
 | ------------- | ------------- | 
 | <img src="assets/details_popup.png" height=500 width=250/>  | <video src="https://github.com/roshansharma824/Google-Maps-Marker-App/assets/85518522/52fdfa25-cc6a-4111-89a1-c2da1bb29571" height=500 width=250/> |
+
+
+## 🚀 About Me
+Hi there! My name is Roshan Sharma, I work as a Android Developer and like to expand my skill set in my spare time.
+
+If you have any questions or want to connect, feel free to reach out to me on :
+
+- [LinkedIn](https://www.linkedin.com/in/imrks/)
