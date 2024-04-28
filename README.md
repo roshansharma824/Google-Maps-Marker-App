@@ -33,4 +33,11 @@ To try out this sample app, use the latest stable version of [Android Studio](ht
 - Drop marker any where on map and save maker with name, address, relation, age
 - View saved location and manage, delete
   
+# Preview App
+| Home Screen  | Details Pop-up | Saved Location Screen |
+| ------------- | ------------- | ------------- |
+| <img src="assets/home_screen.png" height=500 width=250/>  | <img src="assets/details_popup.png" height=500 width=250/> | <img src="assets/saved_location_screen.png" height=500 width=250/> | 
 
+| Delete Pop-up | 
+| ------------- |  
+| <img src="assets/details_popup.png" height=500 width=250/>  | 
