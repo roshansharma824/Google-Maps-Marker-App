@@ -28,10 +28,9 @@ To try out this sample app, use the latest stable version of [Android Studio](ht
 - **Google Maps Compose** for save locations
 
 ## Feature implemented:
--  Google Maps Marker App
-- Get your live location
-- Drop marker any where on map and save maker with name, address, relation, age
-- View saved location and manage, delete
+- **Google Maps Integration**: Incorporate Google Maps SDK to display an interactive map interface within the application.
+- **Marker Management**: Implemented features to allow users to drop markers on the map, save them to the database with additional information (such as name, relation, age, and address with also the LatLongs), and retrieve saved markers for display on the Map itself.
+- **Marker Deletion**: Enable users to delete saved markers from the map and database on tap of the saved marker, with a confirmation dialog to prevent accidental deletions.
   
 # Preview App
 | Home Screen  | Details Pop-up | Saved Location Screen |
