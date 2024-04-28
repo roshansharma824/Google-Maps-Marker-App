@@ -27,7 +27,7 @@ To try out this sample app, use the latest stable version of [Android Studio](ht
 - **Navigation** for smooth transitions between screens
 - **Google Maps Compose** for save locations
 
-- ## Feature implemented:
+## Feature implemented:
 -  Google Maps Marker App
 - Get your live location
 - Drop marker any where on map and save maker with name, address, relation, age
