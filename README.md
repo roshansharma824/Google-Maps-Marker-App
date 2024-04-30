@@ -24,7 +24,7 @@ Note :  Live location only fetch in real-device
 - **Jetpack Compose** for modern UI
 - **Offline caching** with a **single source of truth**
 - **MVVM architecture** for a clean and scalable codebase
-- **Use-Case** responsible for encapsulating the business logic for a single reusable task the system must perform
+- **[Use-Case](https://engineering.teknasyon.com/usecase-red-flags-and-best-practices-in-clean-architecture-76e2f6d921eb)** responsible for encapsulating the business logic for a single reusable task the system must perform
 - **Kotlin** and **Kotlin DSL**
 - **Dagger Hilt** for efficient dependency injection.
 - **Room DB** for local storage of news articles
