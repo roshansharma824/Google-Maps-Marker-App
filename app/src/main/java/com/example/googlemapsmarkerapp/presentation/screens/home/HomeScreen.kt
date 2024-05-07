@@ -191,7 +191,7 @@ fun HomeScreen(
                         value = personDetail.age.toString(),
                         label = { Text("Age") },
                         onValueChange = {
-                            setPersonDetails(personDetail.copy(age = it.toInt()))
+                            setPersonDetails(personDetail.copy(age = it.toIntOrNull() ?: 0))
                         }
                     )
                     OutlinedTextField(
@@ -294,14 +294,7 @@ fun onSaveLocation(
         if (addresses.isNotEmpty()) {
             val address = addresses[0]
             val addressLine = address?.getAddressLine(0)
-            val markerLocation = MarkerLocation(
-                name = "",
-                relation = "",
-                age = 22,
-                address = addressLine,
-                latitude = location.latitude,
-                longitude = location.longitude
-            )
+
             setPersonDetails(
                 personDetail.copy(
                     address = addressLine,
