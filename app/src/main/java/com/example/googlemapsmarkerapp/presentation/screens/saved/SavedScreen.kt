@@ -24,10 +24,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -40,14 +38,17 @@ import com.example.googlemapsmarkerapp.domain.model.MarkerLocation
 import com.example.googlemapsmarkerapp.presentation.theme.Blue
 import com.example.googlemapsmarkerapp.presentation.theme.Gray
 
+data class OnMapDelete(
+    val markerLocation: MarkerLocation?  = null,
+    var openDialog: Boolean = false
+)
+
 @Composable
 fun SavedScreen(
     savedScreenViewModel: SavedScreenViewModel = hiltViewModel()
 ) {
 
-    var openDialog by remember {
-        mutableStateOf(false)
-    }
+    val (onMapDelete, setOnMapDelete) = remember { mutableStateOf(OnMapDelete()) }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -61,20 +62,23 @@ fun SavedScreen(
 
             items(items = savedScreenViewModel.state.markerLocations, key = { it.id!! }) { item ->
                 SavedLocationCard(item, onDelete = {
-                    openDialog = true
+
+                    setOnMapDelete(onMapDelete.copy(it,true))
                 })
-                DeleteDialog(savedScreenViewModel, item, openDialog) {
-                    openDialog = false
-                }
+
             }
         }
+    }
+
+    DeleteDialog(savedScreenViewModel, onMapDelete.markerLocation, onMapDelete.openDialog) {
+        setOnMapDelete(OnMapDelete())
     }
 
 
 }
 
 @Composable
-fun SavedLocationCard(item: MarkerLocation, onDelete: () -> Unit) {
+fun SavedLocationCard(item: MarkerLocation, onDelete: (MarkerLocation) -> Unit) {
     Card(
         elevation = 0.dp, border = BorderStroke(1.dp, Gray.copy(alpha = 0.3f)), modifier = Modifier,
         shape = RoundedCornerShape(16.dp)
@@ -89,7 +93,7 @@ fun SavedLocationCard(item: MarkerLocation, onDelete: () -> Unit) {
                 horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Name:   ${item.name}")
-                IconButton(onClick = { onDelete.invoke() }, modifier = Modifier.height(20.dp)) {
+                IconButton(onClick = { onDelete.invoke(item) }, modifier = Modifier.height(20.dp)) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete",
@@ -112,7 +116,7 @@ fun SavedLocationCard(item: MarkerLocation, onDelete: () -> Unit) {
 @Composable
 fun DeleteDialog(
     savedScreenViewModel: SavedScreenViewModel,
-    item: MarkerLocation,
+    item: MarkerLocation?,
     openDialog: Boolean,
     closeDialog: () -> Unit
 ) {
@@ -152,7 +156,9 @@ fun DeleteDialog(
 
                         Button(
                             onClick = {
-                                savedScreenViewModel.onDeleteLocation(item)
+                                item?.let {
+                                    savedScreenViewModel.onDeleteLocation(it)
+                                }
                                 closeDialog.invoke()
                             },
                             shape = RoundedCornerShape(12.dp),
